@@ -12,7 +12,11 @@ For DRF: https://nchan.io/
 
 coroutine:
     A running asynchronous function. So if you define a function as `async def f()` and call it as `f()`
-    you get back a coroutine.
+    you get back a coroutine. 
+    python, async ==> coroutine
+    Similarly, in JS, async ==> 
+    
+    So, coroutine is concurrency design pattern, that you can use to simplify code that executes asynchronously.
 
 awaitable:
     anything that works with await like:
