@@ -27,6 +27,8 @@ we can use 3 methods to spawn threads from ThreadPoolExecutor:
     iv. cancel_futures=True then the executor will cancel all the future threads that are yet to start.
 
 
+`workers` are just MAX number of running tasks on parallel threads, hence a thread is nothing but worker !
+
 """
 
 import time
