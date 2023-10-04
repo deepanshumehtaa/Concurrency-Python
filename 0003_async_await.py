@@ -37,9 +37,9 @@ async def main_driver():
 
     print("main_driver started ...")
     await task1
-    print("main thread")
+    print("main thread1")
     await task2
-    print("main thread")
+    print("main thread2")
     await task3
     print("main_driver ended ...")
 
@@ -53,8 +53,11 @@ o/p:
 main_driver started ...
 xx started
 yy started
+zz started
 xx says ohhhoo....
+main thread1
 yy says ohhhoo....
-['ok xx', 'ok yy']
+main thread2
+zz says ohhhoo....
 main_driver ended ...
 """
