@@ -1,5 +1,12 @@
 import asyncio
 
+"""
+More advanced than `asyncio.gather(*coroutines)`,
+because `asyncio.gather(*coroutines)` perfect in scheduling and de-scheduling with corouting & during this they
+don't interfear with the main thread !
+
+BUT, `create_task` kind of spawn a thead for each task and can ALSO context switch with the main thread asyncly.
+"""
 
 async def xx():
     print("xx started")
