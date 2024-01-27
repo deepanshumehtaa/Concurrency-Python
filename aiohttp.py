@@ -25,4 +25,18 @@ import aiohttp
 connector = aiohttp.TCPConnector(limit=100, ttl_dns_cache=300)
 session = aiohttp.ClientSession(connector=connector)
 
+"""
+TCPConnector with a limit of 100 connections and a DNS cache TTL of 300 seconds
+The TCPConnector class provides several configuration options that you can use to customize the behavior of the connection pool, including:
+
+limit:
+  The maximum number of connections that can be opened at the same time.
+ttl_dns_cache:
+  The time-to-live (TTL) of the DNS cache, in seconds.
+keepalive_timeout:
+  max time a connection can be idle before it is closed.
+enable_cleanup_closed:
+  Whether to enable automatic cleanup of closed connections.
+
+"""
 
