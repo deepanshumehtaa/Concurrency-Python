@@ -1,7 +1,3 @@
-"""
-
-"""
-
 import time
 
 import logging
@@ -43,7 +39,7 @@ def main():
     )
     logging.info('App Start')
 
-    cores = 4  # MacBook Pro cores (not including virtual cores)
+    cores = 4
     workers = 2*cores + 1
     items = 20
 
@@ -53,7 +49,8 @@ def main():
     # Said objects use significant amount of memory and for last project uses the large memory.
     # To reduce this memory management overhead (allocating and deallocating many threads)
     with ThreadPoolExecutor(max_workers=workers) as executor:
-        # `max_workers`:  only use these number of workers
+        # the only diff b/w `submit` and `map` is map takes the iterator and `submit` is bit adnavced
+        # it takes iterator and args as arg1, arg2, etc ...
         executor.submit(some_task, range(0, items))
 
     # some of the ids will gets repeated in the terminal that depicts the reuse of Threads
