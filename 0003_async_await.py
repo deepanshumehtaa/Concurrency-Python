@@ -10,7 +10,7 @@ BUT, `create_task` kind of spawn a thead for each task and can ALSO context swit
 
 async def xx():
     print("xx started")
-    await asyncio.sleep(1)  # Yield control back to the event loop (not necessary in this case)
+    await asyncio.sleep(4)  # Yield control back to the event loop (not necessary in this case)
     print("xx says ohhhoo....")
     return "ok xx"
 
@@ -24,7 +24,7 @@ async def yy():
 
 async def zz():
     print("zz started")
-    await asyncio.sleep(4)  # Yield control back to the event loop (not necessary in this case)
+    await asyncio.sleep(1)  # Yield control back to the event loop (not necessary in this case)
     print("zz says ohhhoo....")
     return "ok zz"
 
@@ -44,35 +44,29 @@ async def main_driver_v1():
     print("main_driver ended ...")
 
 
-asyncio.run(main_driver_v1())
 
 ####################################################################
 
 async def main_driver_v2():
+    """No Guratee paralalis v1 is better"""
     tasks = [xx(), yy(), zz()]  # List of coroutines to execute
     
     print("main_driver started ...")
     for task in tasks:
-        asyncio.create_task(task)  # Create a task for each coroutine
-    
-    for task in tasks:
-        await task  # Await each task to complete
-        print("main thread")
+        await asyncio.create_task(task)  # Create a task for each coroutine
 
 asyncio.run(main_driver_v2())
 
 """
 o/p:
-
-
 main_driver started ...
 xx started
 yy started
 zz started
+zz says ohhhoo....
+yy says ohhhoo....
 xx says ohhhoo....
 main thread1
-yy says ohhhoo....
 main thread2
-zz says ohhhoo....
 main_driver ended ...
 """
