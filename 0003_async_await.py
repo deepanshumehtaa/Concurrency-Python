@@ -30,7 +30,7 @@ async def zz():
 
 
 # (BEST method) calling through via some `main_driver`:
-async def main_driver():
+async def main_driver_v1():
     task1 = asyncio.create_task(xx())
     task2 = asyncio.create_task(yy())
     task3 = asyncio.create_task(zz())
@@ -44,7 +44,22 @@ async def main_driver():
     print("main_driver ended ...")
 
 
-asyncio.run(main_driver())
+asyncio.run(main_driver_v1())
+
+####################################################################
+
+async def main_driver_v2():
+    tasks = [xx(), yy(), zz()]  # List of coroutines to execute
+    
+    print("main_driver started ...")
+    for task in tasks:
+        asyncio.create_task(task)  # Create a task for each coroutine
+    
+    for task in tasks:
+        await task  # Await each task to complete
+        print("main thread")
+
+asyncio.run(main_driver_v2())
 
 """
 o/p:
