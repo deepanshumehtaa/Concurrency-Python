@@ -37,10 +37,10 @@ from concurrent.futures import ProcessPoolExecutor
 
 
 # custom task that will sleep for a variable amount of time
-def task(name=1):
+def task(num=1):
     t = random.randrange(0, 5)
     sleep(t)
-    return t*name
+    return t*num
 
 
 if __name__ == '__main__':
@@ -52,10 +52,11 @@ if __name__ == '__main__':
         # The processing of Future objects in the order they are completed may be the most
         # common usage pattern of submit() function with the ProcessPoolExecutor.
 
-        future = executor.submit(task, 2, 3)
-        logging.info(future.running())
-        logging.info(future.cancelled())
-        logging.info(future.done())
+        future = executor.submit(task, 2)  # <Future at 0x11b244e80 state=running>
+        logging.info(f"status {future.running()}")  # True
+        logging.info(future.cancelled())  # False
+        logging.info(future.done())  # False
+        logging.info(future.result())  # Blocking i.e. programme wait to complete this 
 
         futures = [executor.submit(task, 2) for _ in range(50)]  # storing the future in collection
 
@@ -64,6 +65,5 @@ if __name__ == '__main__':
         #     # logging.info(f"{future_.result()}")
         #     ...
 
-        print(executor.submit(task, 2), "........")  # <Future at 0x11b244e80 state=running>
-        logging.info(future.done())
+        logging.info(future.done())  # True
         logging.info("Programme ends Here !!!")
