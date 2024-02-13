@@ -51,8 +51,7 @@ from concurrent.futures import ThreadPoolExecutor  # the Thread Pool Executor, P
 wait_time = 10
 
 
-def some_task(item):
-    """This Function will take 14 sec to complete"""
+def some_func(item):
     # no_tasks = random.randrange(start=0, stop=10, step=1)
     logging.info(f"Task: {item} started!")
     # id of current Thread, is created by OS and id belongs to the worker
@@ -65,14 +64,10 @@ def some_task(item):
 
 # Main function
 def main():
-    logging.basicConfig(
-        format='%(levelname)s - %(asctime)s: %(message)s',
-        datefmt='%H:%M:%S',
-        level=logging.DEBUG
-    )
+    logging.basicConfig(format='%(levelname)s - %(asctime)s: %(message)s', datefmt='%H:%M:%S', level=logging.DEBUG)
     logging.info('App Start')
 
-    cores = 4  # MacBook Pro cores
+    cores = 4
     workers = 2*cores + 1
     items = 20
 
@@ -82,11 +77,36 @@ def main():
     # Said objects use significant amount of memory and for last project uses the large memory.
     # To reduce this memory management overhead (allocating and deallocating many threads)
     with ThreadPoolExecutor(max_workers=workers) as executor:
-        executor.map(some_task, range(0, items))
+        executor.map(some_func, [1000, 1001, 1003, 1004])
 
     # some of the ids will gets repeated in the terminal that depicts the reuse of Threads
-    logging.info('App Finished')
+    logging.info('<<< App Finished >>>')
 
 
 if __name__ == "__main__":
     main()
+
+"""
+INFO - 10:41:11: App Start
+INFO - 10:41:11: Task: 1000 started!
+INFO - 10:41:11: Thread 1000: id = 140681690216000
+INFO - 10:41:11: Thread 1000: name = ThreadPoolExecutor-0_0
+INFO - 10:41:11: Thread 1000: sleeping for 10
+INFO - 10:41:11: Task: 1001 started!
+INFO - 10:41:11: Thread 1001: id = 140681681823296
+INFO - 10:41:11: Thread 1001: name = ThreadPoolExecutor-0_1
+INFO - 10:41:11: Thread 1001: sleeping for 10
+INFO - 10:41:11: Task: 1003 started!
+INFO - 10:41:11: Thread 1003: id = 140681673430592
+INFO - 10:41:11: Task: 1004 started!
+INFO - 10:41:11: Thread 1003: name = ThreadPoolExecutor-0_2
+INFO - 10:41:11: Thread 1004: id = 140681665037888
+INFO - 10:41:11: Thread 1003: sleeping for 10
+INFO - 10:41:11: Thread 1004: name = ThreadPoolExecutor-0_3
+INFO - 10:41:11: Thread 1004: sleeping for 10
+INFO - 10:41:14: Thread 1003: finished
+INFO - 10:41:14: Thread 1001: finished
+INFO - 10:41:16: Thread 1000: finished
+INFO - 10:41:19: Thread 1004: finished
+INFO - 10:41:19: <<< App Finished >>>
+"""
