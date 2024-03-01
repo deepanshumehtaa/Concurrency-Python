@@ -5,7 +5,6 @@ So if you’re making several requests to the same host,
 the underlying TCP connection will be reused,
 which can result in a significant performance increase — Session Objects
 
-
 https://realpython.com/async-io-python/
 """
 
@@ -15,6 +14,26 @@ import time
 from threading import Thread, local
 from queue import Queue
 
+"""
+Also, `local` is a class that represents thread-local data. Thread-local data is data that 
+is associated with a specific thread and is not shared with other threads. 
+
+This can be useful for storing data that is specific to a particular thread, such as:
+the current request's session
+
+
+user_id = local()
+user_id.value = 1
+
+def child_thread():
+    print(user_id.value)
+
+t = Thread(target=child_thread)
+t.start()
+t.join()
+
+
+"""
 
 url_list = ["https://www.google.com/", "https://www.bing.com"] * 50
 q = Queue(maxsize=0)  # Use a queue to store all URLs
