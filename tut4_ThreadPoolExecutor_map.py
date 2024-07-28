@@ -48,17 +48,17 @@ from concurrent.futures import ThreadPoolExecutor  # the Thread Pool Executor, P
 
 
 # to see the concept of thread reusing we need to make uneven time period for each tasks
-wait_time = 10
+WAIT_TIME = 10
 
 
 def some_func(item):
-    # no_tasks = random.randrange(start=0, stop=10, step=1)
-    logging.info(f"Task: {item} started!")
+
+    logging.info(f"Args: {item} started!")
     # id of current Thread, is created by OS and id belongs to the worker
     logging.info(f'Thread {item}: id = {get_ident()}')
     logging.info(f'Thread {item}: name = {current_thread().name}')
-    logging.info(f'Thread {item}: sleeping for {wait_time}')
-    time.sleep(random.randrange(wait_time))
+    logging.info(f'Thread {item}: sleeping for {WAIT_TIME}')
+    time.sleep(WAIT_TIME)
     logging.info(f'Thread {item}: finished')
 
 
@@ -67,46 +67,62 @@ def main():
     logging.basicConfig(format='%(levelname)s - %(asctime)s: %(message)s', datefmt='%H:%M:%S', level=logging.DEBUG)
     logging.info('App Start')
 
-    cores = 4
-    workers = 2*cores + 1
-    items = 20
+    workers = 3  # 2*cores + 1
 
-    # No need to Join the Threads
-    # No need to Monitor or Handle the Threads
-    # automatically spawn a new worker when there is
-    # Said objects use significant amount of memory and for last project uses the large memory.
-    # To reduce this memory management overhead (allocating and deallocating many threads)
+    # ** No need to Join the Threads
+    # ** No need to Monitor or Handle the Threads
+    # ** Reuse the threads so memory efficient (allocating and deallocating many threads)
     with ThreadPoolExecutor(max_workers=workers) as executor:
-        executor.map(some_func, [1000, 1001, 1003, 1004])
+        executor.map(some_func, [1000, 1001, 1002, 1003, 1004, 1005, 1006, 1007])
 
-    # some of the ids will gets repeated in the terminal that depicts the reuse of Threads
-    logging.info('<<< App Finished >>>')
+    # some of the ids will get repeated in the terminal that depicts the reuse of Threads
 
 
 if __name__ == "__main__":
     main()
+    logging.info('<<< App Finished >>>')
 
 """
-INFO - 10:41:11: App Start
-INFO - 10:41:11: Task: 1000 started!
-INFO - 10:41:11: Thread 1000: id = 140681690216000
-INFO - 10:41:11: Thread 1000: name = ThreadPoolExecutor-0_0
-INFO - 10:41:11: Thread 1000: sleeping for 10
-INFO - 10:41:11: Task: 1001 started!
-INFO - 10:41:11: Thread 1001: id = 140681681823296
-INFO - 10:41:11: Thread 1001: name = ThreadPoolExecutor-0_1
-INFO - 10:41:11: Thread 1001: sleeping for 10
-INFO - 10:41:11: Task: 1003 started!
-INFO - 10:41:11: Thread 1003: id = 140681673430592
-INFO - 10:41:11: Task: 1004 started!
-INFO - 10:41:11: Thread 1003: name = ThreadPoolExecutor-0_2
-INFO - 10:41:11: Thread 1004: id = 140681665037888
-INFO - 10:41:11: Thread 1003: sleeping for 10
-INFO - 10:41:11: Thread 1004: name = ThreadPoolExecutor-0_3
-INFO - 10:41:11: Thread 1004: sleeping for 10
-INFO - 10:41:14: Thread 1003: finished
-INFO - 10:41:14: Thread 1001: finished
-INFO - 10:41:16: Thread 1000: finished
-INFO - 10:41:19: Thread 1004: finished
-INFO - 10:41:19: <<< App Finished >>>
+INFO - 18:13:44: App Start
+INFO - 18:13:44: Args: 1000 started!
+INFO - 18:13:44: Thread 1000: id = 136347508536896
+INFO - 18:13:44: Thread 1000: name = ThreadPoolExecutor-0_0
+INFO - 18:13:44: Thread 1000: sleeping for 10
+INFO - 18:13:44: Args: 1001 started!
+INFO - 18:13:44: Thread 1001: id = 136347427796544
+INFO - 18:13:44: Thread 1001: name = ThreadPoolExecutor-0_1
+INFO - 18:13:44: Thread 1001: sleeping for 10
+INFO - 18:13:44: Args: 1002 started!
+INFO - 18:13:44: Thread 1002: id = 136347419403840
+INFO - 18:13:44: Thread 1002: name = ThreadPoolExecutor-0_2
+INFO - 18:13:44: Thread 1002: sleeping for 10
+INFO - 18:13:54: Thread 1000: finished
+INFO - 18:13:54: Args: 1003 started!
+INFO - 18:13:54: Thread 1003: id = 136347508536896
+INFO - 18:13:54: Thread 1003: name = ThreadPoolExecutor-0_0
+INFO - 18:13:54: Thread 1003: sleeping for 10
+INFO - 18:13:54: Thread 1002: finished
+INFO - 18:13:54: Args: 1004 started!
+INFO - 18:13:54: Thread 1004: id = 136347419403840
+INFO - 18:13:54: Thread 1004: name = ThreadPoolExecutor-0_2
+INFO - 18:13:54: Thread 1004: sleeping for 10
+INFO - 18:13:54: Thread 1001: finished
+INFO - 18:13:54: Args: 1005 started!
+INFO - 18:13:54: Thread 1005: id = 136347427796544
+INFO - 18:13:54: Thread 1005: name = ThreadPoolExecutor-0_1
+INFO - 18:13:54: Thread 1005: sleeping for 10
+INFO - 18:14:04: Thread 1003: finished
+INFO - 18:14:04: Args: 1006 started!
+INFO - 18:14:04: Thread 1006: id = 136347508536896
+INFO - 18:14:04: Thread 1006: name = ThreadPoolExecutor-0_0
+INFO - 18:14:04: Thread 1006: sleeping for 10
+INFO - 18:14:04: Thread 1004: finished
+INFO - 18:14:04: Args: 1007 started!
+INFO - 18:14:04: Thread 1007: id = 136347419403840
+INFO - 18:14:04: Thread 1007: name = ThreadPoolExecutor-0_2
+INFO - 18:14:04: Thread 1007: sleeping for 10
+INFO - 18:14:04: Thread 1005: finished
+INFO - 18:14:14: Thread 1006: finished
+INFO - 18:14:14: Thread 1007: finished
+INFO - 18:14:14: <<< App Finished >>>
 """
