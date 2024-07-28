@@ -51,7 +51,9 @@ from concurrent.futures import ThreadPoolExecutor  # the Thread Pool Executor, P
 WAIT_TIME = 10
 
 
-def some_func(item):
+def some_func(args):
+    item = args[0]
+    # ax = args[1]
 
     logging.info(f"Args: {item} started!")
     # id of current Thread, is created by OS and id belongs to the worker
@@ -73,7 +75,12 @@ def main():
     # ** No need to Monitor or Handle the Threads
     # ** Reuse the threads so memory efficient (allocating and deallocating many threads)
     with ThreadPoolExecutor(max_workers=workers) as executor:
+        # case 1:
         executor.map(some_func, [1000, 1001, 1002, 1003, 1004, 1005, 1006, 1007])
+        
+        # case 2:
+        # executor.map(some_func, [(1000, "ox"), (1001, "cow"), (1002, "monkey"), (1002, "donkey")])
+        # in above case list pass as args
 
     # some of the ids will get repeated in the terminal that depicts the reuse of Threads
 
