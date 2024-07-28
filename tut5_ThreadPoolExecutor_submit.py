@@ -1,15 +1,12 @@
 import time
 
 import logging
-import random
 
 from threading import Thread, get_ident, current_thread
-from threading import Timer  # utilized to run a code after a specified time period
-
 
 # concurrent is the high level version of Threading to hide all the ugly working of thread details
 from concurrent.futures import Future  # The upcoming proxy object
-from concurrent.futures import ThreadPoolExecutor, Future  # the Thread Pool Executor, Python 3.2+
+from concurrent.futures import ThreadPoolExecutor  # the Thread Pool Executor, Python 3.2+
 from typing import List
 
 # from concurrent.futures import ProcessPoolExecutor  # the Process Pool Executor
