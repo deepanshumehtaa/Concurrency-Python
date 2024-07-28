@@ -18,7 +18,7 @@ from concurrent.futures import ThreadPoolExecutor  # the Thread Pool Executor, P
 wait_time = 10
 
 
-def some_task(item):
+def some_func(item):
     """This Function will take 14 sec to complete"""
     # no_tasks = random.randrange(start=0, stop=10, step=1)
     logging.info(f"Task: {item} started!")
@@ -32,11 +32,7 @@ def some_task(item):
 
 # Main function
 def main():
-    logging.basicConfig(
-        format='%(levelname)s - %(asctime)s: %(message)s',
-        datefmt='%H:%M:%S',
-        level=logging.DEBUG
-    )
+    logging.basicConfig(format='%(levelname)s - %(asctime)s: %(message)s', datefmt='%H:%M:%S', level=logging.DEBUG)
     logging.info('App Start')
 
     cores = 4
@@ -51,7 +47,7 @@ def main():
     with ThreadPoolExecutor(max_workers=workers) as executor:
         # the only diff b/w `submit` and `map` is map takes the iterator and `submit` is bit adnavced
         # it takes iterator and args as arg1, arg2, etc ...
-        executor.submit(some_task, range(0, items))
+        executor.submit(some_func, range(0, items))
 
     # some of the ids will gets repeated in the terminal that depicts the reuse of Threads
     logging.info('App Finished')
