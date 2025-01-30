@@ -115,7 +115,7 @@ class AttackingSemaphoreThreadingExample:
     when multiple Threads try to access the single Resource
     """
     num = 1
-    sem = threading.Semaphore()
+    sem = threading.Semaphore()  # default value is 1
 
     def double_it(self):
         logging.info(f"Trying to Access: {threading.get_ident()}")
